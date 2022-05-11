@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="start_guide" type="id" />
+    <item name="end_guide" type="id" />
+
+    <item name="recommend_line" type="id" />
+    <item name="recommend_box" type="id" />
+
+    <item name="down_chart1" type="id" />
+    <item name="down_chart2" type="id" />
+    <item name="down_chart3" type="id" />
+    <item name="down_chart4" type="id" />
+    <item name="down_chart5" type="id" />
+    <item name="down_chart6" type="id" />
+    <item name="down_chart7" type="id" />
+
+    <item name="up_chart1" type="id" />
+    <item name="up_chart2" type="id" />
+    <item name="up_chart3" type="id" />
+    <item name="up_chart4" type="id" />
+    <item name="up_chart5" type="id" />
+    <item name="up_chart6" type="id" />
+    <item name="up_chart7" type="id" />
+
+    <item name="item1" type="id" />
+    <item name="item2" type="id" />
+    <item name="item3" type="id" />
+    <item name="item4" type="id" />
+    <item name="item5" type="id" />
+    <item name="item6" type="id" />
+    <item name="item7" type="id" />
+
+</resources>
