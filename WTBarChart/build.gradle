@@ -4,30 +4,7 @@ plugins {
     id 'maven-publish'
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            // Creates a Maven publication called "release".
-            release(MavenPublication) {
-                // Applies the component for the release build variant.
-                from components.release
-
-                // You can then customize attributes of the publication as shown below.
-                groupId = 'com.hyunjine.wtbarchart'
-                version = '0.0.0'
-            }
-            // Creates a Maven publication called “debug”.
-            debug(MavenPublication) {
-                // Applies the component for the debug build variant.
-                from components.debug
-
-                groupId = 'com.hyunjine.wtbarchart'
-                artifactId = 'final-debug'
-                version = '0.0.0'
-            }
-        }
-    }
-}
+group='com.github.hyunjine'
 
 android {
     compileSdk 32
@@ -35,7 +12,8 @@ android {
     defaultConfig {
         minSdk 23
         targetSdk 32
-
+        versionCode 1
+        versionName '0.0.1'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
