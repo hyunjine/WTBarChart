@@ -1,6 +1,7 @@
 package com.hyunjine.wtbarchart
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.Log
@@ -11,6 +12,15 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 
 class WTBarChart : WTBaseUnit {
+
+    private lateinit var listener: ((ChartItemIdSet) -> Unit)
+    private lateinit var l: OnChartClickListener
+    fun setChartClickListener(l: ((ChartItemIdSet) -> Unit)) {
+        this.listener = l
+    }
+    fun setChartClickListener(l: OnChartClickListener) {
+        this.l = l
+    }
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
@@ -30,6 +40,7 @@ class WTBarChart : WTBaseUnit {
         put(ChartItemIdSet.COMPONENT6, WTChartData(0f, R.id.down_chart6, R.id.up_chart6))
         put(ChartItemIdSet.COMPONENT7, WTChartData(0f, R.id.down_chart7, R.id.up_chart7))
     }
+
     private val recommendLineWidth: Int by lazy {
         TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -41,19 +52,23 @@ class WTBarChart : WTBaseUnit {
     init {
         addGuideLine()
         for (chart in chartData) {
-            makeChart(View(context), chart.value.downChartId, R.color.bar_chart_down)
-            makeChart(View(context), chart.value.upChartId, R.color.bar_chart_up)
+            makeChart(View(context), chart.key, chart.value.downChartId, R.color.bar_chart_down)
+            makeChart(View(context), chart.key, chart.value.upChartId, R.color.bar_chart_up)
         }
         makeRecommendLine(View(context))
         makeRecommendBox(TextView(context))
     }
 
-    private fun makeChart(view: View, chartId: Int, colorId: Int) {
+    private fun makeChart(view: View, key: ChartItemIdSet, chartId: Int, colorId: Int) {
         with(view) {
             id = chartId
             layoutParams = LayoutParams(0 , 0)
             setBackgroundColor(context.getColor(colorId))
             addView(this)
+            setOnClickListener {
+                if (::listener.isInitialized) listener(key)
+                if (::l.isInitialized) l.onChartClick(key)
+            }
         }
     }
 
@@ -237,13 +252,33 @@ class WTBarChart : WTBaseUnit {
 
     private fun changeToRatio(value: Float): Float = value * (MAX_CHART_HEIGHT / WHOLE_HEIGHT) / maxValue
 
-    fun setDownChartColor(id: ChartItemIdSet, colorId: Int) =
-        chartData[id]?.let { getView<View>(it.downChartId).setBackgroundColor(colorId) }
+    /*
+     * About Chart
+     */
+    fun setDownChartBackground(id: ChartItemIdSet, drawableId: Int) =
+        chartData[id]?.let { getView<View>(it.downChartId).setBackgroundResource(drawableId) }
 
-    fun setUpChartColor(id: ChartItemIdSet, colorId: Int) =
-        chartData[id]?.let { getView<View>(it.upChartId).setBackgroundColor(colorId) }
+    fun setUpChartBackground(id: ChartItemIdSet, drawableId: Int) =
+        chartData[id]?.let { getView<View>(it.upChartId).setBackgroundResource(drawableId) }
 
+    /*
+     * About RecommendBox
+     */
     fun setRecommendBoxBackground(drawableId: Int) =
-        AppCompatResources.getDrawable(context, drawableId)
-            .also { getView<View>(R.id.recommend_box).background = it }
+        getView<TextView>(R.id.recommend_box).setBackgroundResource(drawableId)
+
+    fun setRecommendText(text: String) =
+        text.also { getView<TextView>(R.id.recommend_box).text = it }
+
+    fun setRecommendTextColor(colorId: Int) =
+        getView<TextView>(R.id.recommend_box).setTextColor(colorId)
+
+    fun setRecommendTextColor(color: String) =
+        getView<TextView>(R.id.recommend_box).setTextColor(Color.parseColor(color))
+
+    /*
+     * About RecommendLine
+     */
+    fun setRecommendLineBackground(drawableId: Int) =
+        getView<View>(R.id.recommend_line).setBackgroundResource(drawableId)
 }
