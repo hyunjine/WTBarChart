@@ -6,9 +6,11 @@
 
 Anyway, Thank you for your interest and use!
 
-## How to add
+## How to use
 ### Latest version 
 [![](https://jitpack.io/v/hyunjine/WTBarChart.svg)](https://jitpack.io/#hyunjine/WTBarChart)
+
+**setting.gradle**
 ```java
 allprojects {
     repositories {
@@ -17,8 +19,11 @@ allprojects {
     }
 }
 ```
+
+**build.gradle(Module)**
 ```java
 dependencies {
+    ...
     implementation 'com.github.hyunjine.WTBarChart:wtbarchart:0.0.2'
 }
 ```
