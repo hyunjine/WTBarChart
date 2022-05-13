@@ -7,16 +7,6 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
 
-enum class ChartItemIdSet {
-    COMPONENT1,
-    COMPONENT2,
-    COMPONENT3,
-    COMPONENT4,
-    COMPONENT5,
-    COMPONENT6,
-    COMPONENT7,
-}
-
 abstract class WTBaseUnit : ConstraintLayout {
     companion object {
         const val TAG = "winter"

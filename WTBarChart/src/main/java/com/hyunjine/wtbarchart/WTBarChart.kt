@@ -12,15 +12,6 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.marginEnd
 
-//    private val chartData = HashMap<ChartItemIdSet, WTChartData>().apply {
-//        put(ChartItemIdSet.COMPONENT1, WTChartData(0f, R.id.down_chart1, R.id.up_chart1))
-//        put(ChartItemIdSet.COMPONENT2, WTChartData(0f, R.id.down_chart2, R.id.up_chart2))
-//        put(ChartItemIdSet.COMPONENT3, WTChartData(0f, R.id.down_chart3, R.id.up_chart3))
-//        put(ChartItemIdSet.COMPONENT4, WTChartData(0f, R.id.down_chart4, R.id.up_chart4))
-//        put(ChartItemIdSet.COMPONENT5, WTChartData(0f, R.id.down_chart5, R.id.up_chart5))
-//        put(ChartItemIdSet.COMPONENT6, WTChartData(0f, R.id.down_chart6, R.id.up_chart6))
-//        put(ChartItemIdSet.COMPONENT7, WTChartData(0f, R.id.down_chart7, R.id.up_chart7))
-//    }
 class WTBarChart : WTBaseUnit {
 
     private lateinit var listener: ((View) -> Unit)
