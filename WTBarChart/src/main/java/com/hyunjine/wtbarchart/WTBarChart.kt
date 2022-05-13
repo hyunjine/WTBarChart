@@ -11,6 +11,31 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 
+/*
+private val chartData2 = HashMap<ChartItemIdSet, WTChartData>().apply {
+        put(ChartItemIdSet.COMPONENT1, WTChartData(0f, R.id.down_chart1, R.id.up_chart1))
+        put(ChartItemIdSet.COMPONENT2, WTChartData(0f, R.id.down_chart2, R.id.up_chart2))
+        put(ChartItemIdSet.COMPONENT3, WTChartData(0f, R.id.down_chart3, R.id.up_chart3))
+        put(ChartItemIdSet.COMPONENT4, WTChartData(0f, R.id.down_chart4, R.id.up_chart4))
+        put(ChartItemIdSet.COMPONENT5, WTChartData(0f, R.id.down_chart5, R.id.up_chart5))
+        put(ChartItemIdSet.COMPONENT6, WTChartData(0f, R.id.down_chart6, R.id.up_chart6))
+        put(ChartItemIdSet.COMPONENT7, WTChartData(0f, R.id.down_chart7, R.id.up_chart7))
+    }
+ */
+
+enum class ChartData (
+    var value: Float,
+    val downId: Int,
+    val upId: Int,
+) {
+    COMPONENT1(0f, R.id.down_chart1, R.id.up_chart1),
+    COMPONENT2(0f, R.id.down_chart2, R.id.up_chart2),
+    COMPONENT3(0f, R.id.down_chart3, R.id.up_chart3),
+    COMPONENT4(0f, R.id.down_chart4, R.id.up_chart4),
+    COMPONENT5(0f, R.id.down_chart5, R.id.up_chart5),
+    COMPONENT6(0f, R.id.down_chart6, R.id.up_chart6),
+    COMPONENT7(0f, R.id.down_chart7, R.id.up_chart7)
+}
 class WTBarChart : WTBaseUnit {
 
     private lateinit var listener: ((ChartItemIdSet) -> Unit)
@@ -60,6 +85,19 @@ class WTBarChart : WTBaseUnit {
     }
 
     private fun makeChart(view: View, key: ChartItemIdSet, chartId: Int, colorId: Int) {
+        with(view) {
+            id = chartId
+            layoutParams = LayoutParams(0 , 0)
+            setBackgroundColor(context.getColor(colorId))
+            addView(this)
+            setOnClickListener {
+                if (::listener.isInitialized) listener(key)
+                if (::l.isInitialized) l.onChartClick(key)
+            }
+        }
+    }
+
+    private fun makeChart(view: View, key: ChartData, chartId: Int, colorId: Int) {
         with(view) {
             id = chartId
             layoutParams = LayoutParams(0 , 0)
