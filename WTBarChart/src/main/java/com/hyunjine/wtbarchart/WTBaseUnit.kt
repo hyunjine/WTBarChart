@@ -35,16 +35,6 @@ abstract class WTBaseUnit : ConstraintLayout {
 
         const val DEFAULT_MAX_VALUE: Float = 10f
         const val DEFAULT_RECOMMEND_VALUE: Float = 0f
-
-        fun getAll(): Array<ChartItemIdSet> = arrayOf(
-            ChartItemIdSet.COMPONENT1,
-            ChartItemIdSet.COMPONENT2,
-            ChartItemIdSet.COMPONENT3,
-            ChartItemIdSet.COMPONENT4,
-            ChartItemIdSet.COMPONENT5,
-            ChartItemIdSet.COMPONENT6,
-            ChartItemIdSet.COMPONENT7
-        )
     }
 
     constructor(context: Context) : super(context)

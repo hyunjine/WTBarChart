@@ -5,7 +5,7 @@
     <color name="bar_chart_down">#EBEBEB</color>
     <color name="bar_chart_item">#181818</color>
 
-    <color name="recommend_line">#5A5A5A</color>
+    <color name="recommend_line">#DADADA</color>
     <color name="recommend_bg">#E1F7E6</color>
     <color name="recommend_text">#34C759</color>
 </resources>

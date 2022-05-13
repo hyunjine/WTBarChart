@@ -17,27 +17,18 @@ class WTChartItem: WTBaseUnit {
         defStyle
     )
 
-    private val itemIdList = HashMap<ChartItemIdSet, Int>().apply {
-        put(ChartItemIdSet.COMPONENT1, R.id.item1)
-        put(ChartItemIdSet.COMPONENT2, R.id.item2)
-        put(ChartItemIdSet.COMPONENT3, R.id.item3)
-        put(ChartItemIdSet.COMPONENT4, R.id.item4)
-        put(ChartItemIdSet.COMPONENT5, R.id.item5)
-        put(ChartItemIdSet.COMPONENT6, R.id.item6)
-        put(ChartItemIdSet.COMPONENT7, R.id.item7)
-    }
-
+    private val itemList: Array<ItemSet> = enumValues()
     init {
         addGuideLine()
-        for (id in itemIdList) {
+        for (item in itemList) {
             TextView(context).apply {
-                this.id = id.value
-                setItem(id.key, this)
+                this.id = item.viewId
+                setItem(item, this)
             }
         }
     }
 
-    private fun setItem(itemIdSet: ChartItemIdSet, view: TextView) {
+    private fun setItem(item: ItemSet, view: TextView) {
         with(view) {
             textSize = ITEM_TEXT_SIZE
             setTextColor(context.getColor(R.color.bar_chart_item))
@@ -49,8 +40,8 @@ class WTChartItem: WTBaseUnit {
             ).apply {
                 horizontalChainStyle = LayoutParams.CHAIN_SPREAD
                 topToTop = LayoutParams.PARENT_ID
-                val pair = getIdsForItem(itemIdSet)
-                if (itemIdSet == ChartItemIdSet.COMPONENT1 || itemIdSet == ChartItemIdSet.COMPONENT7) {
+                val pair = getIdsForItem(item)
+                if (item == ItemSet.COMPONENT1 || item == ItemSet.COMPONENT7) {
                     startToStart = pair.first
                     endToEnd = pair.second
                 } else {
@@ -63,52 +54,43 @@ class WTChartItem: WTBaseUnit {
         }
     }
 
-    private fun getIdsForItem(itemIdSet: ChartItemIdSet): Pair<Int, Int> {
-        return when (itemIdSet) {
-            ChartItemIdSet.COMPONENT1 -> Pair(R.id.start_guide, R.id.start_guide)
-            ChartItemIdSet.COMPONENT7 -> Pair(R.id.end_guide, R.id.end_guide)
-            ChartItemIdSet.COMPONENT2 -> Pair(R.id.item1, R.id.item3)
-            ChartItemIdSet.COMPONENT3 -> Pair(R.id.item2, R.id.item4)
-            ChartItemIdSet.COMPONENT4 -> Pair(R.id.item3, R.id.item5)
-            ChartItemIdSet.COMPONENT5 -> Pair(R.id.item4, R.id.item6)
-            ChartItemIdSet.COMPONENT6 -> Pair(R.id.item5, R.id.item7)
+    private fun getIdsForItem(item: ItemSet): Pair<Int, Int> {
+        return when (item) {
+            ItemSet.COMPONENT1 -> Pair(R.id.start_guide, R.id.start_guide)
+            ItemSet.COMPONENT7 -> Pair(R.id.end_guide, R.id.end_guide)
+            ItemSet.COMPONENT2 -> Pair(R.id.item1, R.id.item3)
+            ItemSet.COMPONENT3 -> Pair(R.id.item2, R.id.item4)
+            ItemSet.COMPONENT4 -> Pair(R.id.item3, R.id.item5)
+            ItemSet.COMPONENT5 -> Pair(R.id.item4, R.id.item6)
+            ItemSet.COMPONENT6 -> Pair(R.id.item5, R.id.item7)
         }
     }
 
     fun setAllItemText(list: Array<String>) {
         try {
             for ((idx, text) in list.withIndex()) {
-                getView<TextView>(
-                    when(idx) {
-                        0 -> R.id.item1
-                        1 -> R.id.item2
-                        2 -> R.id.item3
-                        3 -> R.id.item4
-                        4 -> R.id.item5
-                        5 -> R.id.item6
-                        6 -> R.id.item7
-                        else -> throw ArrayIndexOutOfBoundsException()
-                    }
-                ).text = text
+                getView<TextView>(itemList[idx].viewId).text = text
             }
         } catch (e: ArrayIndexOutOfBoundsException) {
             Log.e(TAG, "Array of text size must be until 7")
         }
     }
 
-    fun setItemText(id: ChartItemIdSet, text: String) =
-        itemIdList[id]?.let { getView<TextView>(it).text = text }
+    fun setItemText(item: ItemSet, text: String) =
+        text.also { getView<TextView>(item.viewId).text = it }
 
-    fun setItemTextSize(id: ChartItemIdSet, size: Float) =
-        itemIdList[id]?.let { getView<TextView>(it).textSize = size }
 
-    fun setItemTextFont(id: ChartItemIdSet, typeface: Typeface) =
-        itemIdList[id]?.let { getView<TextView>(it).typeface = typeface }
+    fun setItemTextSize(item: ItemSet, size: Float) =
+        size.also { getView<TextView>(item.viewId).textSize = it }
 
-    fun setItemTextColor(id: ChartItemIdSet, colorId: Int) =
-        itemIdList[id]?.let { getView<TextView>(it).setTextColor(colorId) }
 
-    fun setItemTextColor(id: ChartItemIdSet, color: String) =
-        itemIdList[id]?.let { getView<TextView>(it).setTextColor(Color.parseColor(color)) }
+    fun setItemTextFont(item: ItemSet, typeface: Typeface) =
+        typeface.also { getView<TextView>(item.viewId).typeface = typeface }
+
+    fun setItemTextColor(item: ItemSet, colorId: Int) =
+        getView<TextView>(item.viewId).setTextColor(colorId)
+
+    fun setItemTextColor(item: ItemSet, color: String) =
+        getView<TextView>(item.viewId).setTextColor(Color.parseColor(color))
 
 }

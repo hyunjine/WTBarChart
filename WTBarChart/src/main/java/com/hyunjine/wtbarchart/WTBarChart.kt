@@ -10,37 +10,22 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.marginEnd
 
-/*
-private val chartData2 = HashMap<ChartItemIdSet, WTChartData>().apply {
-        put(ChartItemIdSet.COMPONENT1, WTChartData(0f, R.id.down_chart1, R.id.up_chart1))
-        put(ChartItemIdSet.COMPONENT2, WTChartData(0f, R.id.down_chart2, R.id.up_chart2))
-        put(ChartItemIdSet.COMPONENT3, WTChartData(0f, R.id.down_chart3, R.id.up_chart3))
-        put(ChartItemIdSet.COMPONENT4, WTChartData(0f, R.id.down_chart4, R.id.up_chart4))
-        put(ChartItemIdSet.COMPONENT5, WTChartData(0f, R.id.down_chart5, R.id.up_chart5))
-        put(ChartItemIdSet.COMPONENT6, WTChartData(0f, R.id.down_chart6, R.id.up_chart6))
-        put(ChartItemIdSet.COMPONENT7, WTChartData(0f, R.id.down_chart7, R.id.up_chart7))
-    }
- */
-
-enum class ChartData (
-    var value: Float,
-    val downId: Int,
-    val upId: Int,
-) {
-    COMPONENT1(0f, R.id.down_chart1, R.id.up_chart1),
-    COMPONENT2(0f, R.id.down_chart2, R.id.up_chart2),
-    COMPONENT3(0f, R.id.down_chart3, R.id.up_chart3),
-    COMPONENT4(0f, R.id.down_chart4, R.id.up_chart4),
-    COMPONENT5(0f, R.id.down_chart5, R.id.up_chart5),
-    COMPONENT6(0f, R.id.down_chart6, R.id.up_chart6),
-    COMPONENT7(0f, R.id.down_chart7, R.id.up_chart7)
-}
+//    private val chartData = HashMap<ChartItemIdSet, WTChartData>().apply {
+//        put(ChartItemIdSet.COMPONENT1, WTChartData(0f, R.id.down_chart1, R.id.up_chart1))
+//        put(ChartItemIdSet.COMPONENT2, WTChartData(0f, R.id.down_chart2, R.id.up_chart2))
+//        put(ChartItemIdSet.COMPONENT3, WTChartData(0f, R.id.down_chart3, R.id.up_chart3))
+//        put(ChartItemIdSet.COMPONENT4, WTChartData(0f, R.id.down_chart4, R.id.up_chart4))
+//        put(ChartItemIdSet.COMPONENT5, WTChartData(0f, R.id.down_chart5, R.id.up_chart5))
+//        put(ChartItemIdSet.COMPONENT6, WTChartData(0f, R.id.down_chart6, R.id.up_chart6))
+//        put(ChartItemIdSet.COMPONENT7, WTChartData(0f, R.id.down_chart7, R.id.up_chart7))
+//    }
 class WTBarChart : WTBaseUnit {
 
-    private lateinit var listener: ((ChartItemIdSet) -> Unit)
+    private lateinit var listener: ((View) -> Unit)
     private lateinit var l: OnChartClickListener
-    fun setChartClickListener(l: ((ChartItemIdSet) -> Unit)) {
+    fun setChartClickListener(l: ((View) -> Unit)) {
         this.listener = l
     }
     fun setChartClickListener(l: OnChartClickListener) {
@@ -56,16 +41,8 @@ class WTBarChart : WTBaseUnit {
 
     private var maxValue: Float = DEFAULT_MAX_VALUE
     private var recommendValue: Float = DEFAULT_RECOMMEND_VALUE
-    private val chartData = HashMap<ChartItemIdSet, WTChartData>().apply {
-        put(ChartItemIdSet.COMPONENT1, WTChartData(0f, R.id.down_chart1, R.id.up_chart1))
-        put(ChartItemIdSet.COMPONENT2, WTChartData(0f, R.id.down_chart2, R.id.up_chart2))
-        put(ChartItemIdSet.COMPONENT3, WTChartData(0f, R.id.down_chart3, R.id.up_chart3))
-        put(ChartItemIdSet.COMPONENT4, WTChartData(0f, R.id.down_chart4, R.id.up_chart4))
-        put(ChartItemIdSet.COMPONENT5, WTChartData(0f, R.id.down_chart5, R.id.up_chart5))
-        put(ChartItemIdSet.COMPONENT6, WTChartData(0f, R.id.down_chart6, R.id.up_chart6))
-        put(ChartItemIdSet.COMPONENT7, WTChartData(0f, R.id.down_chart7, R.id.up_chart7))
-    }
 
+    private val chartList: Array<ChartSet> = enumValues()
     private val recommendLineWidth: Int by lazy {
         TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -76,38 +53,26 @@ class WTBarChart : WTBaseUnit {
 
     init {
         addGuideLine()
-        for (chart in chartData) {
-            makeChart(View(context), chart.key, chart.value.downChartId, R.color.bar_chart_down)
-            makeChart(View(context), chart.key, chart.value.upChartId, R.color.bar_chart_up)
+        for (chart in chartList) {
+            makeChart(View(context), chart, chart.downId, R.color.bar_chart_down)
+            makeChart(View(context), chart, chart.upId, R.color.bar_chart_up)
         }
         makeRecommendLine(View(context))
         makeRecommendBox(TextView(context))
     }
 
-    private fun makeChart(view: View, key: ChartItemIdSet, chartId: Int, colorId: Int) {
+    private fun makeChart(view: View, chart: ChartSet, viewId: Int, colorId: Int) {
         with(view) {
-            id = chartId
-            layoutParams = LayoutParams(0 , 0)
+            id = viewId
             setBackgroundColor(context.getColor(colorId))
+            layoutParams = LayoutParams(0, 0)
             addView(this)
             setOnClickListener {
-                if (::listener.isInitialized) listener(key)
-                if (::l.isInitialized) l.onChartClick(key)
+                if (::listener.isInitialized) listener(this)
+                if (::l.isInitialized) l.onChartClick(this)
             }
         }
-    }
 
-    private fun makeChart(view: View, key: ChartData, chartId: Int, colorId: Int) {
-        with(view) {
-            id = chartId
-            layoutParams = LayoutParams(0 , 0)
-            setBackgroundColor(context.getColor(colorId))
-            addView(this)
-            setOnClickListener {
-                if (::listener.isInitialized) listener(key)
-                if (::l.isInitialized) l.onChartClick(key)
-            }
-        }
     }
 
     private fun makeRecommendLine(view: View) {
@@ -132,7 +97,7 @@ class WTBarChart : WTBaseUnit {
             gravity = Gravity.CENTER
             typeface = Typeface.createFromAsset(context.assets, "pretendard_m.otf")
             setTextColor(context.getColor(R.color.recommend_text))
-            background = AppCompatResources.getDrawable(context, R.drawable.bg_recommend)
+//            background = AppCompatResources.getDrawable(context, R.drawable.bg_recommend)
             layoutParams = LayoutParams(0, LayoutParams.WRAP_CONTENT).apply {
                 bottomToBottom = LayoutParams.PARENT_ID
                 startToStart = LayoutParams.PARENT_ID
@@ -155,34 +120,23 @@ class WTBarChart : WTBaseUnit {
     private fun changeAll(maxValue: Float, recommendValue: Float) {
         changeRecommendLine(maxValue, recommendValue)
         changeRecommendBox()
-        for(data in chartData) {
-            changeChart(data.key, data.value.chartValue)
-        }
+        for(chart in chartList) changeChart(chart, chart.value)
     }
 
     fun setAllChartValue(list: Array<Float>) {
         try {
             for ((idx, value) in list.withIndex()) {
-                val id = when(idx) {
-                    0 -> ChartItemIdSet.COMPONENT1
-                    1 -> ChartItemIdSet.COMPONENT2
-                    2 -> ChartItemIdSet.COMPONENT3
-                    3 -> ChartItemIdSet.COMPONENT4
-                    4 -> ChartItemIdSet.COMPONENT5
-                    5 -> ChartItemIdSet.COMPONENT6
-                    6 -> ChartItemIdSet.COMPONENT7
-                    else -> throw ArrayIndexOutOfBoundsException()
-                }
-                setChartValue(id, checkNegative(value, id.name) ?: continue)
+                val chart = chartList[idx]
+                setChartValue(chart, checkNegative(value, chart.name) ?: continue)
             }
         } catch (e: ArrayIndexOutOfBoundsException) {
             Log.e(TAG, "Array of value size must be until 7")
         }
     }
 
-    fun setChartValue(chartId: ChartItemIdSet, value: Float) {
-        chartData[chartId]?.chartValue = checkNegative(value) ?: return
-        changeChart(chartId, value)
+    fun setChartValue(chart: ChartSet, value: Float) {
+        chart.value = checkNegative(value) ?: return
+        changeChart(chart, value)
     }
 
     private fun changeRecommendLine(maxValue: Float, recommendValue: Float) {
@@ -205,7 +159,7 @@ class WTBarChart : WTBaseUnit {
     private fun changeRecommendBox() {
         with(getView<TextView>(R.id.recommend_box)) {
             text = context.getString(R.string.recommend_text, recommendValue.toInt())
-            layoutParams = LayoutParams(0, LayoutParams.WRAP_CONTENT).apply {
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
                 if (recommendValue <= 0) {
                     bottomToBottom = LayoutParams.PARENT_ID
                 } else {
@@ -218,7 +172,7 @@ class WTBarChart : WTBaseUnit {
         }
     }
 
-    private fun changeChart(id: ChartItemIdSet, chartValue: Float) {
+    private fun changeChart(chart: ChartSet, chartValue: Float) {
         val pair = when {
             chartValue > recommendValue && chartValue < maxValue ->
                 Pair(changeToRatio(recommendValue), changeToRatio((chartValue - recommendValue)))
@@ -228,43 +182,42 @@ class WTBarChart : WTBaseUnit {
                 Pair(changeToRatio(chartValue), 0f)
             else -> return
         }
-        chartData[id]?.let { data ->
-            setChartLayoutParam(data.downChartId, true, id, pair.first)
-            setChartLayoutParam(data.upChartId, false, id, pair.second)
+        chart.apply {
+            setChartLayoutParam(downId, true, this, pair.first)
+            setChartLayoutParam(upId, false, this, pair.second)
         }
     }
 
-    private fun setChartLayoutParam(viewId: Int, isDownChart: Boolean, id: ChartItemIdSet, value: Float) {
-        getView<View>(viewId).layoutParams = getChartLayoutParam(isDownChart, id, value)
+    private fun setChartLayoutParam(viewId: Int, isDownChart: Boolean, chart: ChartSet, value: Float) {
+        getView<View>(viewId).layoutParams = getChartLayoutParam(isDownChart, chart, value)
     }
 
-    private fun getChartLayoutParam(isDownChart: Boolean, id: ChartItemIdSet, value: Float): LayoutParams {
-        return LayoutParams(0, 0).apply {
+    private fun getChartLayoutParam(isDownChart: Boolean, chart: ChartSet, value: Float): LayoutParams =
+        LayoutParams(0, 0).apply {
             matchConstraintPercentWidth = CHART_WIDTH / WHOLE_WIDTH
             matchConstraintPercentHeight = value
-            chartData[id]?.let { data ->
-                if (!isDownChart) bottomToTop = data.downChartId
+            chart.apply {
+                if (!isDownChart) bottomToTop = downId
                 else bottomToBottom = LayoutParams.PARENT_ID
-                if (id == ChartItemIdSet.COMPONENT7 || id == ChartItemIdSet.COMPONENT1) {
-                    startToStart = getIdsForChart(id).first
-                    endToEnd = getIdsForChart(id).second
+                if (chart == ChartSet.COMPONENT1 || chart == ChartSet.COMPONENT7) {
+                    startToStart = getIdsForChart(chart).first
+                    endToEnd = getIdsForChart(chart).second
                 } else {
-                    startToEnd = getIdsForChart(id).first
-                    endToStart = getIdsForChart(id).second
+                    startToEnd = getIdsForChart(chart).first
+                    endToStart = getIdsForChart(chart).second
                 }
             }
         }
-    }
 
-    private fun getIdsForChart(id: ChartItemIdSet): Pair<Int, Int> {
-        return when (id) {
-            ChartItemIdSet.COMPONENT1 -> Pair(R.id.start_guide, R.id.start_guide)
-            ChartItemIdSet.COMPONENT7 -> Pair(R.id.end_guide, R.id.end_guide)
-            ChartItemIdSet.COMPONENT2 -> Pair(R.id.down_chart1, R.id.down_chart3)
-            ChartItemIdSet.COMPONENT3 -> Pair(R.id.down_chart2, R.id.down_chart4)
-            ChartItemIdSet.COMPONENT4 -> Pair(R.id.down_chart3, R.id.down_chart5)
-            ChartItemIdSet.COMPONENT5 -> Pair(R.id.down_chart4, R.id.down_chart6)
-            ChartItemIdSet.COMPONENT6 -> Pair(R.id.down_chart5, R.id.down_chart7)
+    private fun getIdsForChart(chart: ChartSet): Pair<Int, Int> {
+        return when (chart) {
+            ChartSet.COMPONENT1 -> Pair(R.id.start_guide, R.id.start_guide)
+            ChartSet.COMPONENT7 -> Pair(R.id.end_guide, R.id.end_guide)
+            ChartSet.COMPONENT2 -> Pair(R.id.down_chart1, R.id.down_chart3)
+            ChartSet.COMPONENT3 -> Pair(R.id.down_chart2, R.id.down_chart4)
+            ChartSet.COMPONENT4 -> Pair(R.id.down_chart3, R.id.down_chart5)
+            ChartSet.COMPONENT5 -> Pair(R.id.down_chart4, R.id.down_chart6)
+            ChartSet.COMPONENT6 -> Pair(R.id.down_chart5, R.id.down_chart7)
         }
     }
 
@@ -290,33 +243,18 @@ class WTBarChart : WTBaseUnit {
 
     private fun changeToRatio(value: Float): Float = value * (MAX_CHART_HEIGHT / WHOLE_HEIGHT) / maxValue
 
-    /*
-     * About Chart
+    /**
+     * @param ChartSet it is a view that you will use under recommend line
      */
-    fun setDownChartBackground(id: ChartItemIdSet, drawableId: Int) =
-        chartData[id]?.let { getView<View>(it.downChartId).setBackgroundResource(drawableId) }
-
-    fun setUpChartBackground(id: ChartItemIdSet, drawableId: Int) =
-        chartData[id]?.let { getView<View>(it.upChartId).setBackgroundResource(drawableId) }
-
-    /*
-     * About RecommendBox
+    val downChart: ((ChartSet) -> View) = { chart ->
+        getView(chart.downId)
+    }
+    /**
+     * @param - it a view that you will use above recommend line
      */
-    fun setRecommendBoxBackground(drawableId: Int) =
-        getView<TextView>(R.id.recommend_box).setBackgroundResource(drawableId)
-
-    fun setRecommendText(text: String) =
-        text.also { getView<TextView>(R.id.recommend_box).text = it }
-
-    fun setRecommendTextColor(colorId: Int) =
-        getView<TextView>(R.id.recommend_box).setTextColor(colorId)
-
-    fun setRecommendTextColor(color: String) =
-        getView<TextView>(R.id.recommend_box).setTextColor(Color.parseColor(color))
-
-    /*
-     * About RecommendLine
-     */
-    fun setRecommendLineBackground(drawableId: Int) =
-        getView<View>(R.id.recommend_line).setBackgroundResource(drawableId)
+    val upChart: ((ChartSet) -> View) = { chart ->
+        getView(chart.upId)
+    }
+    val recommendText: TextView = getView(R.id.recommend_box)
+    val recommendLine: View = getView(R.id.recommend_line)
 }

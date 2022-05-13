@@ -1,5 +1,7 @@
 package com.hyunjine.wtbarchart
 
+import android.view.View
+
 interface OnChartClickListener {
-    fun onChartClick(chart: ChartItemIdSet)
+    fun onChartClick(view: View)
 }
