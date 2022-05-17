@@ -20,7 +20,6 @@
         android:id="@+id/wt_chart"
         android:layout_width="0dp"
         android:layout_height="152dp"
-        android:background="@drawable/bg_bar_chart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +30,9 @@
         android:id="@+id/wt_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_bar_chart_user"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         app:layout_constraintEnd_toEndOf="@id/wt_chart"
         app:layout_constraintStart_toStartOf="@id/wt_chart"
         app:layout_constraintTop_toBottomOf="@id/wt_chart" />

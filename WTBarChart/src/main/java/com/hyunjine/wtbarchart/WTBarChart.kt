@@ -237,15 +237,14 @@ class WTBarChart : WTBaseUnit {
     /**
      * @param ChartSet it is a view that you will use under recommend line
      */
-    val downChart: ((ChartSet) -> View) = { chart ->
-        getView(chart.downId)
-    }
+    fun getDownChart(chart: ChartSet): View = getView(chart.downId)
+
     /**
      * @param - it a view that you will use above recommend line
      */
-    val upChart: ((ChartSet) -> View) = { chart ->
-        getView(chart.upId)
-    }
-    val recommendText: TextView = getView(R.id.recommend_box)
-    val recommendLine: View = getView(R.id.recommend_line)
+    fun getUpChart(chart: ChartSet): View = getView(chart.upId)
+
+    fun getRecommendBox(): TextView = getView(R.id.recommend_box)
+    fun getRecommendLine(): TextView = getView(R.id.recommend_line)
+    fun getRecommendValue(): Float = recommendValue
 }
