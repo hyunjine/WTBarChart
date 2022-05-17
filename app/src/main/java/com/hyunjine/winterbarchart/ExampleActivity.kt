@@ -6,13 +6,14 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.setPadding
 import com.hyunjine.winterbarchart.databinding.ActivityExampleBinding
 import com.hyunjine.wtbarchart.*
 
 class ExampleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityExampleBinding
 
-    private var a  = 5f
+    private var a  = 4f
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityExampleBinding.inflate(layoutInflater)
@@ -20,19 +21,26 @@ class ExampleActivity : AppCompatActivity() {
 
         with(binding) {
             wtItem.setAllItemText(arrayOf("월", "화", "수", "목", "금", "토", "일"))
-            wtItem.setItemText(ItemSet.COMPONENT1, "섹")
             wtChart.apply {
                 setAllChartValue(arrayOf(10f, 5f, 4f, 7f, 8f, 1f, 2f))
                 setRecommendValue(3f)
-//                setUpChartBackground(ChartItemIdSet.COMPONENT1, R.drawable.bg_up_chart)
-//                setRecommendBoxBackground(R.drawable.bg_recommend)
-//                setRecommendLineBackground(R.drawable.dotted_line_user)
+                for ((idx, value) in WTBaseUnit.chartSet.withIndex()) {
+                    upChart(value).setBackgroundResource(R.drawable.bg_up_chart)
+                    if (idx == 5 || idx == 6)
+                        downChart(value).setBackgroundResource(R.drawable.bg_down_chart_down)
+                    else
+                        downChart(value).setBackgroundResource(R.drawable.bg_down_chart)
+                }
+                recommendText.run {
+                    setBackgroundResource(R.drawable.bg_recommend_box)
+                    setPadding(20,20,40,20)
+                    text = "3회"
+                    setTextColor(getColor(R.color.white))
+                }
             }
             btn.setOnClickListener {
                 wtChart.apply {
-                    setChartValue(ChartSet.COMPONENT3, a++)
-                    downChart(ChartSet.COMPONENT1).setBackgroundResource(R.drawable.bg_up_chart)
-                    recommendText.text = "gdgd"
+                    setRecommendValue(a++)
                 }
             }
             wtChart.setChartClickListener(object : OnChartClickListener {

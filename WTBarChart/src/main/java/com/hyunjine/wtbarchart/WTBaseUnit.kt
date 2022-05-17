@@ -25,6 +25,8 @@ abstract class WTBaseUnit : ConstraintLayout {
 
         const val DEFAULT_MAX_VALUE: Float = 10f
         const val DEFAULT_RECOMMEND_VALUE: Float = 0f
+
+        val chartSet = enumValues<ChartSet>()
     }
 
     constructor(context: Context) : super(context)
