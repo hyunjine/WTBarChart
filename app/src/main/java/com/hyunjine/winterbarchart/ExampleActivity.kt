@@ -28,7 +28,7 @@ class ExampleActivity : AppCompatActivity() {
                 getRecommendBox().run {
                     setBackgroundResource(R.drawable.bg_recommend_box)
                     setPadding(30,30,50,30)
-                    text = "3회"
+                    text = "30분"
                     setTextColor(getColor(R.color.white))
                 }
             }
