@@ -31,7 +31,9 @@ class ExampleActivity : AppCompatActivity() {
                     text = "30분"
                     setTextColor(getColor(R.color.white))
                 }
+
             }
+
             btn.setOnClickListener {
                 wtChart.apply {
                     setRecommendValue(++a)
