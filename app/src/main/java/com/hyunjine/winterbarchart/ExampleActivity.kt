@@ -20,31 +20,41 @@ class ExampleActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         with(binding) {
-            wtItem.setAllItemText(arrayOf("월", "화", "수", "목", "금", "토", "일"))
+            wtItem.setAllItemText(arrayOf("M", "T", "W", "T", "I", "T", "N"))
+//            wtItem.setAllItemText(arrayOf("월", "화", "수", "목", "금", "토", "일"))
             wtChart.apply {
                 setAllChartValue(arrayOf(10f, 5f, 4f, 7f, 8f, 1f, 2f))
                 setRecommendValue(3f)
-                onChangeRecommendValue()
-                getRecommendBox().run {
-                    setBackgroundResource(R.drawable.bg_recommend_box)
-                    setPadding(30,30,50,30)
-                    text = "30분"
-                    setTextColor(getColor(R.color.white))
-                }
+//                onChangeRecommendValue()
 
             }
-
-            btn.setOnClickListener {
-                wtChart.apply {
-                    setRecommendValue(++a)
-                    onChangeRecommendValue()
-                }
-            }
-            wtChart.setChartClickListener(object : OnChartClickListener {
-                override fun onChartClick(view: View) {
-                    view.background = AppCompatResources.getDrawable(this@ExampleActivity, R.drawable.bg_up_chart)
-                }
-            })
+//            wtItem.setAllItemText(arrayOf("Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"))
+//
+//            wtChart.apply {
+//                setAllChartValue(arrayOf(10f, 5f, 4f, 7f, 8f, 1f, 2f))
+//                setRecommendValue(3f)
+//                onChangeRecommendValue()
+//                getRecommendBox().run {
+//                    setBackgroundResource(R.drawable.bg_recommend_box)
+//                    setPadding(30,30,50,30)
+//                    text = "30분"
+//                    setTextColor(getColor(R.color.white))
+//                }
+//
+//            }
+//            wtChart.getRecommendBox().visibility = View.GONE
+//            btn.setOnClickListener {
+//                wtChart.apply {
+//                    setRecommendValue(++a)
+//                    onChangeRecommendValue()
+//                }
+//            }
+//            //typeface = Typeface.createFromAsset(context.assets, "pretendard_m.otf")
+//            wtChart.setChartClickListener(object : OnChartClickListener {
+//                override fun onChartClick(view: View) {
+//                    view.background = AppCompatResources.getDrawable(this@ExampleActivity, R.drawable.bg_up_chart)
+//                }
+//            })
         }
     }
 

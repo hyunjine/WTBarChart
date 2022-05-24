@@ -32,7 +32,6 @@ class WTChartItem: WTBaseUnit {
         with(view) {
             textSize = ITEM_TEXT_SIZE
             setTextColor(context.getColor(R.color.bar_chart_item))
-            typeface = Typeface.createFromAsset(context.assets, "pretendard_r.otf")
             gravity = Gravity.CENTER
             layoutParams = LayoutParams(
                 LayoutParams.WRAP_CONTENT,

@@ -86,9 +86,8 @@ class WTBarChart : WTBaseUnit {
             text = context.getString(R.string.recommend_text, recommendValue.toInt())
             textSize = RECOMMEND_TEXT_SIZE
             gravity = Gravity.CENTER
-            typeface = Typeface.createFromAsset(context.assets, "pretendard_m.otf")
             setTextColor(context.getColor(R.color.recommend_text))
-//            background = AppCompatResources.getDrawable(context, R.drawable.bg_recommend)
+            setBackgroundResource(R.drawable.bg_recommend)
             layoutParams = LayoutParams(0, LayoutParams.WRAP_CONTENT).apply {
                 bottomToBottom = LayoutParams.PARENT_ID
                 startToStart = LayoutParams.PARENT_ID
@@ -149,7 +148,7 @@ class WTBarChart : WTBaseUnit {
 
     private fun changeRecommendBox() {
         with(getView<TextView>(R.id.recommend_box)) {
-            text = context.getString(R.string.recommend_text, recommendValue.toInt())
+            text = recommendValue.toInt().toString()
             layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
                 if (recommendValue <= 0) {
                     bottomToBottom = LayoutParams.PARENT_ID
