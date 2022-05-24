@@ -11,6 +11,7 @@ abstract class WTBaseUnit : ConstraintLayout {
     companion object {
         const val TAG = "winter"
 
+        const val ITEM_COUNT: Int = 7
         const val WHOLE_WIDTH: Float = 297f
         const val WHOLE_HEIGHT: Float = 152f
         const val START_GUIDE: Float = 84.5f
@@ -20,6 +21,7 @@ abstract class WTBaseUnit : ConstraintLayout {
         const val CHART_WIDTH: Float = 7f
         const val MAX_CHART_HEIGHT: Float = 137f
 
+        const val INTERVAL: Float = (END_GUIDE - START_GUIDE) / 6f
         const val ITEM_TEXT_SIZE: Float = 15f
         const val RECOMMEND_TEXT_SIZE: Float = 12f
 
@@ -47,6 +49,31 @@ abstract class WTBaseUnit : ConstraintLayout {
         layoutParams = getGuideLineLayoutParams(END_GUIDE / WHOLE_WIDTH)
     }
 
+    private val guideLine2 = Guideline(context).apply {
+        id = R.id.guide_line_2
+        layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(1))
+    }
+
+    private val guideLine3 = Guideline(context).apply {
+        id = R.id.guide_line_3
+        layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(2))
+    }
+
+    private val guideLine4 = Guideline(context).apply {
+        id = R.id.guide_line_4
+        layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(3))
+    }
+
+    private val guideLine5 = Guideline(context).apply {
+        id = R.id.guide_line_5
+        layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(4))
+    }
+
+    private val guideLine6 = Guideline(context).apply {
+        id = R.id.guide_line_6
+        layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(5))
+    }
+
     protected fun addGuideLine() {
         addView(startGuideline)
         addView(endGuideline)
@@ -56,6 +83,9 @@ abstract class WTBaseUnit : ConstraintLayout {
         if (getViewById(id) is T) return getViewById(id) as T
         else throw TypeCastException("TextView or View are casted only")
     }
+
+    private fun getGuidePercentPlusInterval(count: Int): Float =
+        (START_GUIDE + (INTERVAL * count)) / WHOLE_WIDTH
 
     private fun getGuideLineLayoutParams(guidePercent: Float): LayoutParams {
         return LayoutParams(width, height).apply {

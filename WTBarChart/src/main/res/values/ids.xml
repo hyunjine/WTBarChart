@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="start_guide" type="id" />
+    <item name="guide_line_2" type="id" />
+    <item name="guide_line_3" type="id" />
+    <item name="guide_line_4" type="id" />
+    <item name="guide_line_5" type="id" />
+    <item name="guide_line_6" type="id" />
     <item name="end_guide" type="id" />
 
     <item name="recommend_line" type="id" />

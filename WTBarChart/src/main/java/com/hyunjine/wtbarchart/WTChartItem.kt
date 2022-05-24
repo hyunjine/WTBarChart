@@ -40,6 +40,17 @@ class WTChartItem: WTBaseUnit {
                 horizontalChainStyle = LayoutParams.CHAIN_SPREAD
                 topToTop = LayoutParams.PARENT_ID
                 val pair = getIdsForItem(item)
+                when(item) {
+                    ItemSet.COMPONENT1 -> {
+
+                    }
+                    ItemSet.COMPONENT7 -> ""
+                    ItemSet.COMPONENT2 -> ""
+                    ItemSet.COMPONENT3 -> ""
+                    ItemSet.COMPONENT4 -> ""
+                    ItemSet.COMPONENT5 -> ""
+                    ItemSet.COMPONENT6 -> ""
+                }
                 if (item == ItemSet.COMPONENT1 || item == ItemSet.COMPONENT7) {
                     startToStart = pair.first
                     endToEnd = pair.second
