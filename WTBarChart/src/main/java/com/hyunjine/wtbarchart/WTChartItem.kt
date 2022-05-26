@@ -40,24 +40,24 @@ class WTChartItem: WTBaseUnit {
                 horizontalChainStyle = LayoutParams.CHAIN_SPREAD
                 topToTop = LayoutParams.PARENT_ID
                 val pair = getIdsForItem(item)
-                when(item) {
-                    ItemSet.COMPONENT1 -> {
-
-                    }
-                    ItemSet.COMPONENT7 -> ""
-                    ItemSet.COMPONENT2 -> ""
-                    ItemSet.COMPONENT3 -> ""
-                    ItemSet.COMPONENT4 -> ""
-                    ItemSet.COMPONENT5 -> ""
-                    ItemSet.COMPONENT6 -> ""
+                val id = when(item) {
+                    ItemSet.COMPONENT1 -> R.id.start_guide
+                    ItemSet.COMPONENT7 -> R.id.end_guide
+                    ItemSet.COMPONENT2 -> R.id.guide_line_2
+                    ItemSet.COMPONENT3 -> R.id.guide_line_3
+                    ItemSet.COMPONENT4 -> R.id.guide_line_4
+                    ItemSet.COMPONENT5 -> R.id.guide_line_5
+                    ItemSet.COMPONENT6 -> R.id.guide_line_6
                 }
-                if (item == ItemSet.COMPONENT1 || item == ItemSet.COMPONENT7) {
-                    startToStart = pair.first
-                    endToEnd = pair.second
-                } else {
-                    startToEnd = pair.first
-                    endToStart = pair.second
-                }
+                startToStart = id
+                endToEnd = id
+//                if (item == ItemSet.COMPONENT1 || item == ItemSet.COMPONENT7) {
+//                    startToStart = pair.first
+//                    endToEnd = pair.second
+//                } else {
+//                    startToEnd = pair.first
+//                    endToStart = pair.second
+//                }
             }
             addView(this)
 

@@ -77,6 +77,11 @@ abstract class WTBaseUnit : ConstraintLayout {
     protected fun addGuideLine() {
         addView(startGuideline)
         addView(endGuideline)
+        addView(guideLine2)
+        addView(guideLine3)
+        addView(guideLine4)
+        addView(guideLine5)
+        addView(guideLine6)
     }
 
     protected inline fun<reified T: View> getView(id: Int): T  {
