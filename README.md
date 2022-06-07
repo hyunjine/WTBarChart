@@ -75,7 +75,7 @@ When less than 7 values are entered, only the corresponding values are displayed
 
 In addition, **a max value can be specified.**  
 If the difference in values between charts exceeds the normal range, charts with small values are rarely seen.  
-In contrast, the setMaxValue() method exists to specify a maximum value, and if this maximum value is exceeded, the value is displayed equal to the maximum value..
+To prepare, the setMaxValue() method exists to specify a maximum value, and if this maximum value is exceeded, the value is displayed equal to the maximum value..
 ```kotlin
 binding.run {
     wtItem.setAllItemText(arrayOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
