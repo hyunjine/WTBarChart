@@ -1,6 +1,7 @@
 <h1 align="center">WTBarChart</h1>
 <h3 align="center">📊 7 unit oriented bar chart library suitable for TODO and more. </br>
-Anyway, Thank you for your interest and use!</h3>
+Thank you for your interest and use! </br>
+Any issues will be fixed as soon as they are delivered or confirmed.</h3>
 
 ![version](https://img.shields.io/badge/version-v1.0.0-brightgreen.svg)
 ![version](https://img.shields.io/badge/API-23+-blue.svg)
