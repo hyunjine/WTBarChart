@@ -3,7 +3,6 @@
 Thank you for your interest and use! </br>
 Any issues will be fixed as soon as they are delivered or confirmed.</h3>
 
-![version](https://img.shields.io/badge/version-v1.0.0-brightgreen.svg)
 ![version](https://img.shields.io/badge/API-23+-blue.svg)
 
 # Preview
@@ -20,6 +19,7 @@ Any issues will be fixed as soon as they are delivered or confirmed.</h3>
 
 ---
 # Including in your project
+![version](https://img.shields.io/badge/version-v1.0.0-brightgreen.svg)  
 **setting.gradle**
 ```java
 allprojects {
