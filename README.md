@@ -75,11 +75,20 @@ The reason for dividing the two is to allow different background properties to b
 WTUnit.getAll()
 ```
 This method is a containing method that returns all elements of WTUnit as Array<WTUnit> type.  
-It is used when you want to change all items.
+It is used when you want to change all items. Like this
+```kotlin
+for (i in WTUnit.getAll()) {
+    wtItem.getItem(i).textSize = 12f
+}
+```
 
 ## WTUnit.COMPONENT1 ~ COMPONENT7
 ```kotlin
-WTUnit.getAll()
+WTUnit.COMPONENT1
+WTUnit.COMPONENT2
+WTUnit.COMPONENT3
+...
+WTUnit.COMPONENT7
 ```
 This applies equally to charts and chart items, and the order is COMPONENT1 from the left.  
 
@@ -150,7 +159,6 @@ Same as above
   binding.wtChart.setChartValue(WTUnit.COMPONENT1, 10f)
 ```
 **unit is an enum class as a WTUnit type, and there are COMPONENT1 to COMPONENT7.**  
-**This applies equally to charts and chart items, and the order is COMPONENT1 from the left.**  
 
 For value, put the desired value as a float type.
 
