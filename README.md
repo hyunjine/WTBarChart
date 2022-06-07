@@ -1,5 +1,5 @@
 <h1 align="center">WTBarChart</h1>
-<h3 align="center">📊 7 unit oriented bar chart library suitable for TODO and more.</br>
+<h3 align="center">📊 7 unit oriented bar chart library suitable for TODO and more.
 Anyway, Thank you for your interest and use!</h3>
 
 ![version](https://img.shields.io/badge/version-v1.0.0-brightgreen.svg)
@@ -34,5 +34,28 @@ dependencies {
 }
 ```
 # How to Use
-ddd
-                                                                                                                            dddddd
+사용하고자
+
+```xml
+<com.hyunjine.wtbarchart.WTBarChart
+    android:id="@+id/wt_chart"
+    android:layout_width="0dp"
+    android:background="@drawable/bg_chart_area"
+    android:layout_height="152dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintWidth_percent="0.8" />
+
+<com.hyunjine.wtbarchart.WTChartItem
+    android:id="@+id/wt_item"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_area"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    app:layout_constraintEnd_toEndOf="@id/wt_chart"
+    app:layout_constraintStart_toStartOf="@id/wt_chart"
+    app:layout_constraintTop_toBottomOf="@id/wt_chart" />
+```
