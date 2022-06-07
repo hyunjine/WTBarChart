@@ -85,7 +85,13 @@ for (i in WTUnit.getAll()) {
     wtItem.getItem(i).textSize = 12f
 }
 ```
-
+Two methods that are likely to be used frequently have been implemented in advance.
+```kotlin
+binding.run {
+    wtItem.setAllItemText(arrayOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
+    wtChart.setAllChartValue(arrayOf(100f, 50f, 40f, 70f, 80f, 30f, 20f)
+}  
+```
 ## WTUnit.COMPONENT1 ~ COMPONENT7
 ```kotlin
 WTUnit.COMPONENT1
