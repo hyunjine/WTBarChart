@@ -12,7 +12,7 @@ Anyway, Thank you for your interest and use!</h3>
 </p>
                                                                                                                         
 <p align="center">
-<img src="https://user-images.githubusercontent.com/92709137/172385745-559e2ef9-2d96-4189-9c87-82906317cd93.gif" width="45% />
+<img src="https://user-images.githubusercontent.com/92709137/172385745-559e2ef9-2d96-4189-9c87-82906317cd93.gif" width="45%" />
 </p>
 
 ---
@@ -26,7 +26,6 @@ allprojects {
     }
 }
 ```
-
 **build.gradle(Module)**
 ```java
 dependencies {
@@ -34,3 +33,6 @@ dependencies {
     implementation 'com.github.hyunjine.WTBarChart:wtbarchart:0.0.3'
 }
 ```
+# How to Use
+ddd
+                                                                                                                            dddddd
