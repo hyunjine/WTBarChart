@@ -41,37 +41,37 @@ public abstract class WTBase : ConstraintLayout {
     )
 
     private val startGuideline = Guideline(context).apply {
-        id = R.id.start_guide
+        id = R.id.wtbar_start_guide
         layoutParams = getGuideLineLayoutParams(START_GUIDE / WHOLE_WIDTH)
     }
 
     private val endGuideline = Guideline(context).apply {
-        id = R.id.end_guide
+        id = R.id.wtbar_end_guide
         layoutParams = getGuideLineLayoutParams(END_GUIDE / WHOLE_WIDTH)
     }
 
     private val guideLine2 = Guideline(context).apply {
-        id = R.id.guide_line_2
+        id = R.id.wtbar_guide_line_2
         layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(1))
     }
 
     private val guideLine3 = Guideline(context).apply {
-        id = R.id.guide_line_3
+        id = R.id.wtbar_guide_line_3
         layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(2))
     }
 
     private val guideLine4 = Guideline(context).apply {
-        id = R.id.guide_line_4
+        id = R.id.wtbar_guide_line_4
         layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(3))
     }
 
     private val guideLine5 = Guideline(context).apply {
-        id = R.id.guide_line_5
+        id = R.id.wtbar_guide_line_5
         layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(4))
     }
 
     private val guideLine6 = Guideline(context).apply {
-        id = R.id.guide_line_6
+        id = R.id.wtbar_guide_line_6
         layoutParams = getGuideLineLayoutParams(getGuidePercentPlusInterval(5))
     }
 

@@ -44,8 +44,8 @@ public class WTBarChart : WTBase {
     init {
         addGuideLine()
         for (chart in chartList) {
-            makeChart(View(context), chart, chart.downId, R.color.bar_chart_down)
-            makeChart(View(context), chart, chart.upId, R.color.bar_chart_up)
+            makeChart(View(context), chart, chart.downId, R.color.wtbar_bar_chart_down)
+            makeChart(View(context), chart, chart.upId, R.color.wtbar_bar_chart_up)
         }
         makeRecommendLine(View(context))
         makeRecommendBox(TextView(context))
@@ -66,12 +66,12 @@ public class WTBarChart : WTBase {
 
     private fun makeRecommendLine(view: View) {
         with(view) {
-            id = R.id.recommend_line
-            background = AppCompatResources.getDrawable(context, R.drawable.dotted_line)
+            id = R.id.wtbar_recommend_line
+            background = AppCompatResources.getDrawable(context, R.drawable.wtbar_dotted_line)
             layoutParams = LayoutParams(0, recommendLineWidth).apply {
                 topToTop = LayoutParams.PARENT_ID
                 bottomToBottom = LayoutParams.PARENT_ID
-                startToEnd = R.id.recommend_box
+                startToEnd = R.id.wtbar_recommend_box
                 verticalBias = 1f
             }
             addView(this)
@@ -80,12 +80,12 @@ public class WTBarChart : WTBase {
 
     private fun makeRecommendBox(view: TextView) {
         with(view) {
-            id = R.id.recommend_box
+            id = R.id.wtbar_recommend_box
             text = recommendValue.toInt().toString()
             textSize = RECOMMEND_TEXT_SIZE
             gravity = Gravity.CENTER
-            setTextColor(context.getColor(R.color.recommend_text))
-            setBackgroundResource(R.drawable.bg_recommend)
+            setTextColor(context.getColor(R.color.wtbar_recommend_text))
+            setBackgroundResource(R.drawable.wtbar_bg_recommend)
             setPadding(
                 RECOMMEND_BOX_MARGIN_LEFT,
                 RECOMMEND_BOX_MARGIN_TOP,
@@ -115,23 +115,23 @@ public class WTBarChart : WTBase {
             else ->
                 1f - ((MAX_CHART_HEIGHT / WHOLE_HEIGHT)*(recommendValue / maxValue))
         }
-        getView<View>(R.id.recommend_line).layoutParams = LayoutParams(0, recommendLineWidth).apply {
+        getView<View>(R.id.wtbar_recommend_line).layoutParams = LayoutParams(0, recommendLineWidth).apply {
             topToTop = LayoutParams.PARENT_ID
             bottomToBottom = LayoutParams.PARENT_ID
-            startToEnd = R.id.recommend_box
+            startToEnd = R.id.wtbar_recommend_box
             this.verticalBias = verticalBias
         }
     }
 
     private fun changeRecommendBox() {
-        with(getView<TextView>(R.id.recommend_box)) {
+        with(getView<TextView>(R.id.wtbar_recommend_box)) {
             text = recommendValue.toInt().toString()
             layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
                 if (recommendValue <= 0 || recommendValue / maxValue < 0.05f) {
                     bottomToBottom = LayoutParams.PARENT_ID
                 } else {
-                    topToTop = R.id.recommend_line
-                    bottomToBottom = R.id.recommend_line
+                    topToTop = R.id.wtbar_recommend_line
+                    bottomToBottom = R.id.wtbar_recommend_line
                 }
                 startToStart = LayoutParams.PARENT_ID
             }
@@ -178,13 +178,13 @@ public class WTBarChart : WTBase {
 
     private fun getIdsForChart(chart: ChartSet): Int {
         return when (chart) {
-            ChartSet.COMPONENT1 -> R.id.start_guide
-            ChartSet.COMPONENT7 -> R.id.end_guide
-            ChartSet.COMPONENT2 -> R.id.guide_line_2
-            ChartSet.COMPONENT3 -> R.id.guide_line_3
-            ChartSet.COMPONENT4 -> R.id.guide_line_4
-            ChartSet.COMPONENT5 -> R.id.guide_line_5
-            ChartSet.COMPONENT6 -> R.id.guide_line_6
+            ChartSet.COMPONENT1 -> R.id.wtbar_start_guide
+            ChartSet.COMPONENT7 -> R.id.wtbar_end_guide
+            ChartSet.COMPONENT2 -> R.id.wtbar_guide_line_2
+            ChartSet.COMPONENT3 -> R.id.wtbar_guide_line_3
+            ChartSet.COMPONENT4 -> R.id.wtbar_guide_line_4
+            ChartSet.COMPONENT5 -> R.id.wtbar_guide_line_5
+            ChartSet.COMPONENT6 -> R.id.wtbar_guide_line_6
         }
     }
 
@@ -246,8 +246,8 @@ public class WTBarChart : WTBase {
         changeAll(maxValue, recommendValue)
     }
 
-    public val recommendBox: TextView = getView(R.id.recommend_box)
-    public val recommendLine: View = getView(R.id.recommend_line)
+    public val recommendBox: TextView = getView(R.id.wtbar_recommend_box)
+    public val recommendLine: View = getView(R.id.wtbar_recommend_line)
     public fun getDownChart(unit: WTUnit): View = getView(matchWTUnitToChartSet(unit).downId)
     public fun getUpChart(unit: WTUnit): View = getView(matchWTUnitToChartSet(unit).upId)
     public fun getChartValue(unit: WTUnit): Float = matchWTUnitToChartSet(unit).value

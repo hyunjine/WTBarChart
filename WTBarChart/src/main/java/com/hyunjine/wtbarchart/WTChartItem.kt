@@ -29,7 +29,7 @@ public class WTChartItem: WTBase {
     private fun setItem(item: ItemSet, view: TextView) {
         with(view) {
             textSize = ITEM_TEXT_SIZE
-            setTextColor(context.getColor(R.color.bar_chart_item))
+            setTextColor(context.getColor(R.color.wtbar_bar_chart_item))
             gravity = Gravity.CENTER
             layoutParams = LayoutParams(
                 LayoutParams.WRAP_CONTENT,
@@ -47,13 +47,13 @@ public class WTChartItem: WTBase {
 
     private fun getIdsForItem(item: ItemSet): Int =
         when(item) {
-            ItemSet.COMPONENT1 -> R.id.start_guide
-            ItemSet.COMPONENT7 -> R.id.end_guide
-            ItemSet.COMPONENT2 -> R.id.guide_line_2
-            ItemSet.COMPONENT3 -> R.id.guide_line_3
-            ItemSet.COMPONENT4 -> R.id.guide_line_4
-            ItemSet.COMPONENT5 -> R.id.guide_line_5
-            ItemSet.COMPONENT6 -> R.id.guide_line_6
+            ItemSet.COMPONENT1 -> R.id.wtbar_start_guide
+            ItemSet.COMPONENT7 -> R.id.wtbar_end_guide
+            ItemSet.COMPONENT2 -> R.id.wtbar_guide_line_2
+            ItemSet.COMPONENT3 -> R.id.wtbar_guide_line_3
+            ItemSet.COMPONENT4 -> R.id.wtbar_guide_line_4
+            ItemSet.COMPONENT5 -> R.id.wtbar_guide_line_5
+            ItemSet.COMPONENT6 -> R.id.wtbar_guide_line_6
         }
 
     public fun setAllItemText(list: Array<String>) {
