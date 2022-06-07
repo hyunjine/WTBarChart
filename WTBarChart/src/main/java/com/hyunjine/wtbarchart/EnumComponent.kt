@@ -1,6 +1,6 @@
 package com.hyunjine.wtbarchart
 
-enum class ChartSet(
+internal enum class ChartSet(
     var value: Float,
     val downId: Int,
     val upId: Int
@@ -14,7 +14,7 @@ enum class ChartSet(
     COMPONENT7(0f, R.id.down_chart7, R.id.up_chart7)
 }
 
-enum class ItemSet(val viewId: Int) {
+internal enum class ItemSet(val viewId: Int) {
     COMPONENT1(R.id.item1),
     COMPONENT2(R.id.item2),
     COMPONENT3(R.id.item3),
@@ -22,4 +22,14 @@ enum class ItemSet(val viewId: Int) {
     COMPONENT5(R.id.item5),
     COMPONENT6(R.id.item6),
     COMPONENT7(R.id.item7)
+}
+
+public enum class WTUnit {
+    COMPONENT1,
+    COMPONENT2,
+    COMPONENT3,
+    COMPONENT4,
+    COMPONENT5,
+    COMPONENT6,
+    COMPONENT7
 }

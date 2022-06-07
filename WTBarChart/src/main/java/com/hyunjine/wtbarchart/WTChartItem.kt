@@ -1,17 +1,15 @@
 package com.hyunjine.wtbarchart
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.widget.TextView
 
-class WTChartItem: WTBaseUnit {
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
+public class WTChartItem: WTBase {
+    public constructor(context: Context) : super(context)
+    public constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    public constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
         defStyle
@@ -39,44 +37,26 @@ class WTChartItem: WTBaseUnit {
             ).apply {
                 horizontalChainStyle = LayoutParams.CHAIN_SPREAD
                 topToTop = LayoutParams.PARENT_ID
-                val pair = getIdsForItem(item)
-                val id = when(item) {
-                    ItemSet.COMPONENT1 -> R.id.start_guide
-                    ItemSet.COMPONENT7 -> R.id.end_guide
-                    ItemSet.COMPONENT2 -> R.id.guide_line_2
-                    ItemSet.COMPONENT3 -> R.id.guide_line_3
-                    ItemSet.COMPONENT4 -> R.id.guide_line_4
-                    ItemSet.COMPONENT5 -> R.id.guide_line_5
-                    ItemSet.COMPONENT6 -> R.id.guide_line_6
-                }
+                val id = getIdsForItem(item)
                 startToStart = id
                 endToEnd = id
-//                if (item == ItemSet.COMPONENT1 || item == ItemSet.COMPONENT7) {
-//                    startToStart = pair.first
-//                    endToEnd = pair.second
-//                } else {
-//                    startToEnd = pair.first
-//                    endToStart = pair.second
-//                }
             }
             addView(this)
-
         }
     }
 
-    private fun getIdsForItem(item: ItemSet): Pair<Int, Int> {
-        return when (item) {
-            ItemSet.COMPONENT1 -> Pair(R.id.start_guide, R.id.start_guide)
-            ItemSet.COMPONENT7 -> Pair(R.id.end_guide, R.id.end_guide)
-            ItemSet.COMPONENT2 -> Pair(R.id.item1, R.id.item3)
-            ItemSet.COMPONENT3 -> Pair(R.id.item2, R.id.item4)
-            ItemSet.COMPONENT4 -> Pair(R.id.item3, R.id.item5)
-            ItemSet.COMPONENT5 -> Pair(R.id.item4, R.id.item6)
-            ItemSet.COMPONENT6 -> Pair(R.id.item5, R.id.item7)
+    private fun getIdsForItem(item: ItemSet): Int =
+        when(item) {
+            ItemSet.COMPONENT1 -> R.id.start_guide
+            ItemSet.COMPONENT7 -> R.id.end_guide
+            ItemSet.COMPONENT2 -> R.id.guide_line_2
+            ItemSet.COMPONENT3 -> R.id.guide_line_3
+            ItemSet.COMPONENT4 -> R.id.guide_line_4
+            ItemSet.COMPONENT5 -> R.id.guide_line_5
+            ItemSet.COMPONENT6 -> R.id.guide_line_6
         }
-    }
 
-    fun setAllItemText(list: Array<String>) {
+    public fun setAllItemText(list: Array<String>) {
         try {
             for ((idx, text) in list.withIndex()) {
                 getView<TextView>(itemList[idx].viewId).text = text
@@ -86,21 +66,17 @@ class WTChartItem: WTBaseUnit {
         }
     }
 
-    fun setItemText(item: ItemSet, text: String) =
-        text.also { getView<TextView>(item.viewId).text = it }
+    private fun matchWTUnitToItemSet(unit: WTUnit): ItemSet =
+        when(unit) {
+            WTUnit.COMPONENT1 -> ItemSet.COMPONENT1
+            WTUnit.COMPONENT2 -> ItemSet.COMPONENT2
+            WTUnit.COMPONENT3 -> ItemSet.COMPONENT3
+            WTUnit.COMPONENT4 -> ItemSet.COMPONENT4
+            WTUnit.COMPONENT5 -> ItemSet.COMPONENT5
+            WTUnit.COMPONENT6 -> ItemSet.COMPONENT6
+            WTUnit.COMPONENT7 -> ItemSet.COMPONENT7
+        }
 
-
-    fun setItemTextSize(item: ItemSet, size: Float) =
-        size.also { getView<TextView>(item.viewId).textSize = it }
-
-
-    fun setItemTextFont(item: ItemSet, typeface: Typeface) =
-        typeface.also { getView<TextView>(item.viewId).typeface = typeface }
-
-    fun setItemTextColor(item: ItemSet, colorId: Int) =
-        getView<TextView>(item.viewId).setTextColor(colorId)
-
-    fun setItemTextColor(item: ItemSet, color: String) =
-        getView<TextView>(item.viewId).setTextColor(Color.parseColor(color))
-
+    public fun getItem(unit: WTUnit): TextView =
+        getView(matchWTUnitToItemSet(unit).viewId)
 }

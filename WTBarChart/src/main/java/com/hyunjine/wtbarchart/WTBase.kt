@@ -7,33 +7,34 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
 
-abstract class WTBaseUnit : ConstraintLayout {
-    companion object {
-        const val TAG = "winter"
+public abstract class WTBase : ConstraintLayout {
+    public companion object {
+        internal const val TAG = "winter"
 
-        const val ITEM_COUNT: Int = 7
-        const val WHOLE_WIDTH: Float = 297f
-        const val WHOLE_HEIGHT: Float = 152f
-        const val START_GUIDE: Float = 84.5f
-        const val END_GUIDE: Float = 283.5f
+        public const val WHOLE_WIDTH: Float = 297f
+        public const val WHOLE_HEIGHT: Float = 152f
+        public const val START_GUIDE: Float = 65f
+        public const val END_GUIDE: Float = 270f
 
-        const val RECOMMEND_BOX_WIDTH: Float = 52f
-        const val CHART_WIDTH: Float = 7f
-        const val MAX_CHART_HEIGHT: Float = 137f
+        public const val RECOMMEND_BOX_MARGIN_LEFT: Int = 30
+        public const val RECOMMEND_BOX_MARGIN_RIGHT: Int = 40
+        public const val RECOMMEND_BOX_MARGIN_TOP: Int = 25
+        public const val RECOMMEND_BOX_MARGIN_BOTTOM: Int = 25
 
-        const val INTERVAL: Float = (END_GUIDE - START_GUIDE) / 6f
-        const val ITEM_TEXT_SIZE: Float = 15f
-        const val RECOMMEND_TEXT_SIZE: Float = 12f
+        public const val MAX_CHART_HEIGHT: Float = 137f
 
-        const val DEFAULT_MAX_VALUE: Float = 10f
-        const val DEFAULT_RECOMMEND_VALUE: Float = 0f
+        public const val CHART_WIDTH: Float = 8f
+        public const val INTERVAL: Float = (END_GUIDE - START_GUIDE) / 6f
+        public const val ITEM_TEXT_SIZE: Float = 15f
+        public const val RECOMMEND_TEXT_SIZE: Float = 12f
 
-        val chartSet = enumValues<ChartSet>()
+        public const val DEFAULT_MAX_VALUE: Float = 10f
+        public const val DEFAULT_RECOMMEND_VALUE: Float = 0f
     }
 
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
+    public constructor(context: Context) : super(context)
+    public constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    public constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
         defStyle
@@ -99,5 +100,6 @@ abstract class WTBaseUnit : ConstraintLayout {
         }
     }
 
+    @JvmSynthetic
     protected fun Float.isNegative(): Boolean = this < 0f
 }

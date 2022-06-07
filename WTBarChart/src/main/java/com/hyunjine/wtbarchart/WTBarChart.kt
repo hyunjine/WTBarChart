@@ -1,8 +1,6 @@
 package com.hyunjine.wtbarchart
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -10,21 +8,21 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.marginEnd
 
-class WTBarChart : WTBaseUnit {
+public class WTBarChart : WTBase {
 
-    private lateinit var listener: ((View) -> Unit)
+    private lateinit var listener: ((View, Float) -> Unit)
     private lateinit var l: OnChartClickListener
-    fun setChartClickListener(l: ((View) -> Unit)) {
+
+    public fun setOnChartClickListener(l: ((View, Float) -> Unit)) {
         this.listener = l
     }
-    fun setChartClickListener(l: OnChartClickListener) {
+    public fun setOnChartClickListener(l: OnChartClickListener) {
         this.l = l
     }
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
+    public constructor(context: Context) : super(context)
+    public constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    public constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
         defStyle
@@ -32,6 +30,7 @@ class WTBarChart : WTBaseUnit {
 
     private var maxValue: Float = DEFAULT_MAX_VALUE
     private var recommendValue: Float = DEFAULT_RECOMMEND_VALUE
+    private var chartWidth: Float = CHART_WIDTH
 
     private val chartList: Array<ChartSet> = enumValues()
     private val recommendLineWidth: Int by lazy {
@@ -59,11 +58,10 @@ class WTBarChart : WTBaseUnit {
             layoutParams = LayoutParams(0, 0)
             addView(this)
             setOnClickListener {
-                if (::listener.isInitialized) listener(this)
-                if (::l.isInitialized) l.onChartClick(this)
+                if (::listener.isInitialized) listener(this, chart.value)
+                if (::l.isInitialized) l.onChartClick(this, chart.value)
             }
         }
-
     }
 
     private fun makeRecommendLine(view: View) {
@@ -83,50 +81,29 @@ class WTBarChart : WTBaseUnit {
     private fun makeRecommendBox(view: TextView) {
         with(view) {
             id = R.id.recommend_box
-            text = context.getString(R.string.recommend_text, recommendValue.toInt())
+            text = recommendValue.toInt().toString()
             textSize = RECOMMEND_TEXT_SIZE
             gravity = Gravity.CENTER
             setTextColor(context.getColor(R.color.recommend_text))
             setBackgroundResource(R.drawable.bg_recommend)
+            setPadding(
+                RECOMMEND_BOX_MARGIN_LEFT,
+                RECOMMEND_BOX_MARGIN_TOP,
+                RECOMMEND_BOX_MARGIN_RIGHT,
+                RECOMMEND_BOX_MARGIN_BOTTOM
+            )
             layoutParams = LayoutParams(0, LayoutParams.WRAP_CONTENT).apply {
                 bottomToBottom = LayoutParams.PARENT_ID
                 startToStart = LayoutParams.PARENT_ID
-                matchConstraintPercentWidth = RECOMMEND_BOX_WIDTH / WHOLE_WIDTH
             }
             addView(this)
         }
-    }
-
-    fun setMaxValue(value: Float) {
-        maxValue = checkNegative(value) ?: return
-        changeAll(value, recommendValue)
-    }
-
-    fun setRecommendValue(value: Float) {
-        recommendValue = checkNegative(value) ?: return
-        changeAll(maxValue, value)
     }
 
     private fun changeAll(maxValue: Float, recommendValue: Float) {
         changeRecommendLine(maxValue, recommendValue)
         changeRecommendBox()
         for(chart in chartList) changeChart(chart, chart.value)
-    }
-
-    fun setAllChartValue(list: Array<Float>) {
-        try {
-            for ((idx, value) in list.withIndex()) {
-                val chart = chartList[idx]
-                setChartValue(chart, checkNegative(value, chart.name) ?: continue)
-            }
-        } catch (e: ArrayIndexOutOfBoundsException) {
-            Log.e(TAG, "Array of value size must be until 7")
-        }
-    }
-
-    fun setChartValue(chart: ChartSet, value: Float) {
-        chart.value = checkNegative(value) ?: return
-        changeChart(chart, value)
     }
 
     private fun changeRecommendLine(maxValue: Float, recommendValue: Float) {
@@ -150,31 +127,34 @@ class WTBarChart : WTBaseUnit {
         with(getView<TextView>(R.id.recommend_box)) {
             text = recommendValue.toInt().toString()
             layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
-                if (recommendValue <= 0) {
+                if (recommendValue <= 0 || recommendValue / maxValue < 0.05f) {
                     bottomToBottom = LayoutParams.PARENT_ID
                 } else {
                     topToTop = R.id.recommend_line
                     bottomToBottom = R.id.recommend_line
                 }
                 startToStart = LayoutParams.PARENT_ID
-                matchConstraintPercentWidth = RECOMMEND_BOX_WIDTH / WHOLE_WIDTH
             }
         }
     }
 
     private fun changeChart(chart: ChartSet, chartValue: Float) {
-        val pair = when {
+        val (downValue, upValue) = when {
             chartValue > recommendValue && chartValue < maxValue ->
                 Pair(changeToRatio(recommendValue), changeToRatio((chartValue - recommendValue)))
-            chartValue > recommendValue && chartValue >= maxValue ->
+            chartValue > recommendValue && chartValue >= maxValue && recommendValue < maxValue ->
                 Pair(changeToRatio(recommendValue), changeToRatio((maxValue - recommendValue)))
-            chartValue <= recommendValue && chartValue <= maxValue ->
+            chartValue > recommendValue && chartValue >= maxValue && recommendValue >= maxValue ->
+                Pair(changeToRatio(maxValue), changeToRatio((0f)))
+            chartValue <= recommendValue && chartValue < maxValue ->
                 Pair(changeToRatio(chartValue), 0f)
+            chartValue in maxValue..recommendValue ->
+                Pair(changeToRatio(maxValue), 0f)
             else -> return
         }
         chart.apply {
-            setChartLayoutParam(downId, true, this, pair.first)
-            setChartLayoutParam(upId, false, this, pair.second)
+            setChartLayoutParam(downId, true, this, downValue)
+            setChartLayoutParam(upId, false, this, upValue)
         }
     }
 
@@ -184,30 +164,27 @@ class WTBarChart : WTBaseUnit {
 
     private fun getChartLayoutParam(isDownChart: Boolean, chart: ChartSet, value: Float): LayoutParams =
         LayoutParams(0, 0).apply {
-            matchConstraintPercentWidth = CHART_WIDTH / WHOLE_WIDTH
+            matchConstraintPercentWidth = chartWidth / WHOLE_WIDTH
             matchConstraintPercentHeight = value
+            horizontalChainStyle = LayoutParams.CHAIN_SPREAD
             chart.apply {
                 if (!isDownChart) bottomToTop = downId
                 else bottomToBottom = LayoutParams.PARENT_ID
-                if (chart == ChartSet.COMPONENT1 || chart == ChartSet.COMPONENT7) {
-                    startToStart = getIdsForChart(chart).first
-                    endToEnd = getIdsForChart(chart).second
-                } else {
-                    startToEnd = getIdsForChart(chart).first
-                    endToStart = getIdsForChart(chart).second
-                }
+                val guideline = getIdsForChart(chart)
+                startToStart = guideline
+                endToEnd = guideline
             }
         }
 
-    private fun getIdsForChart(chart: ChartSet): Pair<Int, Int> {
+    private fun getIdsForChart(chart: ChartSet): Int {
         return when (chart) {
-            ChartSet.COMPONENT1 -> Pair(R.id.start_guide, R.id.start_guide)
-            ChartSet.COMPONENT7 -> Pair(R.id.end_guide, R.id.end_guide)
-            ChartSet.COMPONENT2 -> Pair(R.id.down_chart1, R.id.down_chart3)
-            ChartSet.COMPONENT3 -> Pair(R.id.down_chart2, R.id.down_chart4)
-            ChartSet.COMPONENT4 -> Pair(R.id.down_chart3, R.id.down_chart5)
-            ChartSet.COMPONENT5 -> Pair(R.id.down_chart4, R.id.down_chart6)
-            ChartSet.COMPONENT6 -> Pair(R.id.down_chart5, R.id.down_chart7)
+            ChartSet.COMPONENT1 -> R.id.start_guide
+            ChartSet.COMPONENT7 -> R.id.end_guide
+            ChartSet.COMPONENT2 -> R.id.guide_line_2
+            ChartSet.COMPONENT3 -> R.id.guide_line_3
+            ChartSet.COMPONENT4 -> R.id.guide_line_4
+            ChartSet.COMPONENT5 -> R.id.guide_line_5
+            ChartSet.COMPONENT6 -> R.id.guide_line_6
         }
     }
 
@@ -233,17 +210,57 @@ class WTBarChart : WTBaseUnit {
 
     private fun changeToRatio(value: Float): Float = value * (MAX_CHART_HEIGHT / WHOLE_HEIGHT) / maxValue
 
-    /**
-     * @param ChartSet it is a view that you will use under recommend line
-     */
-    fun getDownChart(chart: ChartSet): View = getView(chart.downId)
+    public fun setMaxValue(value: Float) {
+        maxValue = checkNegative(value) ?: return
+        changeAll(value, recommendValue)
+    }
 
-    /**
-     * @param - it a view that you will use above recommend line
-     */
-    fun getUpChart(chart: ChartSet): View = getView(chart.upId)
+    public fun setRecommendValue(value: Float) {
+        recommendValue = checkNegative(value) ?: return
+        changeAll(maxValue, value)
+    }
 
-    fun getRecommendBox(): TextView = getView(R.id.recommend_box)
-    fun getRecommendLine(): TextView = getView(R.id.recommend_line)
-    fun getRecommendValue(): Float = recommendValue
+    public fun setChartValue(unit: WTUnit, value: Float) {
+        matchWTUnitToChartSet(unit).value = checkNegative(value) ?: return
+        changeChart(matchWTUnitToChartSet(unit), value)
+    }
+
+    private fun setChartValue(chart: ChartSet, value: Float) {
+        chart.value = checkNegative(value) ?: return
+        changeChart(chart, value)
+    }
+
+    public fun setAllChartValue(list: Array<Float>) {
+        try {
+            for ((idx, value) in list.withIndex()) {
+                val chart = chartList[idx]
+                setChartValue(chart, checkNegative(value, chart.name) ?: continue)
+            }
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            Log.e(TAG, "Array of value size must be until 7")
+        }
+    }
+
+    public fun setChartWidth(width: Float) {
+        chartWidth = width
+        changeAll(maxValue, recommendValue)
+    }
+
+    public val recommendBox: TextView = getView(R.id.recommend_box)
+    public val recommendLine: View = getView(R.id.recommend_line)
+    public fun getDownChart(unit: WTUnit): View = getView(matchWTUnitToChartSet(unit).downId)
+    public fun getUpChart(unit: WTUnit): View = getView(matchWTUnitToChartSet(unit).upId)
+    public fun getChartValue(unit: WTUnit): Float = matchWTUnitToChartSet(unit).value
+    public fun getRecommendValue(): Float = recommendValue
+
+    private fun matchWTUnitToChartSet(unit: WTUnit): ChartSet =
+        when(unit) {
+            WTUnit.COMPONENT1 -> ChartSet.COMPONENT1
+            WTUnit.COMPONENT2 -> ChartSet.COMPONENT2
+            WTUnit.COMPONENT3 -> ChartSet.COMPONENT3
+            WTUnit.COMPONENT4 -> ChartSet.COMPONENT4
+            WTUnit.COMPONENT5 -> ChartSet.COMPONENT5
+            WTUnit.COMPONENT6 -> ChartSet.COMPONENT6
+            WTUnit.COMPONENT7 -> ChartSet.COMPONENT7
+        }
 }
