@@ -6,35 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".ExampleActivity">
 
-    <android.widget.Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="이벤트"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.hyunjine.wtbarchart.WTBarChart
         android:id="@+id/wt_chart"
         android:layout_width="0dp"
+        android:background="@drawable/bg_chart_area"
         android:layout_height="152dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="5dp"
         app:layout_constraintWidth_percent="0.865889" />
 
     <com.hyunjine.wtbarchart.WTChartItem
         android:id="@+id/wt_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_bar_chart_user"
+        android:background="@drawable/bg_item_area"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         app:layout_constraintEnd_toEndOf="@id/wt_chart"
         app:layout_constraintStart_toStartOf="@id/wt_chart"
         app:layout_constraintTop_toBottomOf="@id/wt_chart" />
+
+    <android.widget.Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/wt_item"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"
+        android:textSize="10sp"
+        android:text="Event Button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

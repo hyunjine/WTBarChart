@@ -11,10 +11,10 @@ import androidx.appcompat.content.res.AppCompatResources
 
 public class WTBarChart : WTBase {
 
-    private lateinit var listener: ((View, Float) -> Unit)
+    private lateinit var listener: ((WTUnit) -> Unit)
     private lateinit var l: OnChartClickListener
 
-    public fun setOnChartClickListener(l: ((View, Float) -> Unit)) {
+    public fun setOnChartClickListener(l: ((WTUnit) -> Unit)) {
         this.listener = l
     }
     public fun setOnChartClickListener(l: OnChartClickListener) {
@@ -58,8 +58,8 @@ public class WTBarChart : WTBase {
             layoutParams = LayoutParams(0, 0)
             addView(this)
             setOnClickListener {
-                if (::listener.isInitialized) listener(this, chart.value)
-                if (::l.isInitialized) l.onChartClick(this, chart.value)
+                if (::listener.isInitialized) listener(matchChartSetToWTUnit(chart))
+                if (::l.isInitialized) l.onChartClick(matchChartSetToWTUnit(chart))
             }
         }
     }
@@ -246,8 +246,8 @@ public class WTBarChart : WTBase {
         changeAll(maxValue, recommendValue)
     }
 
-    public val recommendBox: TextView = getView(R.id.wtbar_recommend_box)
-    public val recommendLine: View = getView(R.id.wtbar_recommend_line)
+    public fun getRecommendBox(): TextView = getView(R.id.wtbar_recommend_box)
+    public fun getRecommendLine(): View = getView(R.id.wtbar_recommend_line)
     public fun getDownChart(unit: WTUnit): View = getView(matchWTUnitToChartSet(unit).downId)
     public fun getUpChart(unit: WTUnit): View = getView(matchWTUnitToChartSet(unit).upId)
     public fun getChartValue(unit: WTUnit): Float = matchWTUnitToChartSet(unit).value
@@ -262,5 +262,16 @@ public class WTBarChart : WTBase {
             WTUnit.COMPONENT5 -> ChartSet.COMPONENT5
             WTUnit.COMPONENT6 -> ChartSet.COMPONENT6
             WTUnit.COMPONENT7 -> ChartSet.COMPONENT7
+        }
+
+    private fun matchChartSetToWTUnit(chart: ChartSet): WTUnit =
+        when(chart) {
+            ChartSet.COMPONENT1 -> WTUnit.COMPONENT1
+            ChartSet.COMPONENT2 -> WTUnit.COMPONENT2
+            ChartSet.COMPONENT3 -> WTUnit.COMPONENT3
+            ChartSet.COMPONENT4 -> WTUnit.COMPONENT4
+            ChartSet.COMPONENT5 -> WTUnit.COMPONENT5
+            ChartSet.COMPONENT6 -> WTUnit.COMPONENT6
+            ChartSet.COMPONENT7 -> WTUnit.COMPONENT7
         }
 }

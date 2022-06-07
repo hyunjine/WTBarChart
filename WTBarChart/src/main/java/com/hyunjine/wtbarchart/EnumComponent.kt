@@ -31,5 +31,9 @@ public enum class WTUnit {
     COMPONENT4,
     COMPONENT5,
     COMPONENT6,
-    COMPONENT7
+    COMPONENT7;
+
+    public companion object {
+        public fun getAll(): Array<WTUnit> = enumValues()
+    }
 }
