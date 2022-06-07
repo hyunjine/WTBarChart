@@ -37,6 +37,9 @@ dependencies {
 }
 ```
 # How to Use
+### SampleActivity
+**Please note that ExampleActivity is registered in the app path.**    
+
 ### In .xml                                                                                                                            
 Add two layouts to the view you want to use.
 
