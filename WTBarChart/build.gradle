@@ -15,7 +15,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.hyunjine.wtbarchart'
                 artifactId = 'wtbarchart'
-                version = '0.0.3'
+                version = '0.0.4'
             }
             // Creates a Maven publication called “debug”.
             debug(MavenPublication) {
@@ -24,7 +24,7 @@ afterEvaluate {
 
                 groupId = 'com.hyunjine.wtbarchart'
                 artifactId = 'final-debug'
-                version = '0.0.3'
+                version = '0.0.4'
             }
         }
     }
