@@ -30,7 +30,7 @@ allprojects {
 ```java
 dependencies {
     ...
-    implementation 'com.github.hyunjine.WTBarChart:wtbarchart:0.0.3'
+    implementation 'com.github.hyunjine.WTBarChart:wtbarchart:1.0.0'
 }
 ```
 # How to Use
@@ -65,21 +65,50 @@ The reason for dividing the two is to allow different background properties to b
     app:layout_constraintTop_toBottomOf="@id/wt_chart" />
 ```
 ### In code
+### Normal
+
 In order to use this library, basically, you need to enter three values.  
 You must specify the values of each chart, the names of chart items, and the recommended values.  
 The order in which they appear in the view is from left to right.
 
-**When less than 7 values are entered, only the corresponding values are displayed in the view, but if they are exceeded, an exception is raised.**
+When less than 7 values are entered, only the corresponding values are displayed in the view, **but if they are exceeded, an exception is raised.**
 
-또한, max값을 지정할 수 있는데, 이 값은 차트들의 값 차이가 정상적인 범위를 넘어서게 된다면 값이 작은 차트는 거의 보이지 않는 경우가 발생합니다.
-이를 대비하기 위해 
+In addition, **a max value can be specified.**  
+If the difference in values between charts exceeds the normal range, charts with small values are rarely seen.  
+To prepare for this, the setMaxValue() method exists so that the max value is specified, and when this max value is exceeded, the maximum value can be displayed consistently.
 ```kotlin
 binding.run {
     wtItem.setAllItemText(arrayOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
     wtChart.apply {
         setAllChartValue(arrayOf(100f, 50f, 40f, 70f, 80f, 30f, 20f))
-        setMaxValue(100f)
         setRecommendValue(60f)
+        setMaxValue(100f)
     }
 }
 ```
+If you want to handle the event through chart click, you can use the following function.
+```kotlin
+binding.run {
+    ...
+    wtChart.setOnChartClickListener { wtUnit, value ->
+        // What you want
+    }
+
+    // or
+    ...
+    wtChart.setOnChartClickListener(object : OnChartClickListener {
+        override fun onChartClick(unit: WTUnit, value: Float) {
+            // What you want
+        }
+    })
+}
+```
+
+The parameter **"unit"** means the enum value of the clicked chart, and **"value"** means the current value of the clicked chart.  
+
+### Custom
+All elements composing this library inherit View, so the process of changing it to the desired shape is the same as usual.  
+- Chart - **View**
+- Recommend Line - **View**
+- Recommend Box - **TextView**
+- Chart Item - **TextView**
