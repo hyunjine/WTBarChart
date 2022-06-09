@@ -19,7 +19,7 @@ Any issues will be fixed as soon as they are delivered or confirmed.</h3>
 
 ---
 # Including in your project
-![version](https://img.shields.io/badge/version-v1.0.0-brightgreen.svg)  
+![version](https://img.shields.io/badge/version-v1.0.1-brightgreen.svg)  
 **setting.gradle**
 ```java
 allprojects {
@@ -33,7 +33,7 @@ allprojects {
 ```java
 dependencies {
     ...
-    implementation 'com.github.hyunjine.WTBarChart:wtbarchart:1.0.0'
+    implementation 'com.github.hyunjine:WTBarChart:1.0.1'
 }
 ```
 # How to Use
