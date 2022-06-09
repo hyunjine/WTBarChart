@@ -3,7 +3,6 @@
 Thank you for your interest and use! </br>
 Any issues will be fixed as soon as they are delivered or confirmed.</h3>
 
-![version](https://img.shields.io/badge/version-v1.0.0-brightgreen.svg)
 ![version](https://img.shields.io/badge/API-23+-blue.svg)
 
 # Preview
@@ -20,6 +19,7 @@ Any issues will be fixed as soon as they are delivered or confirmed.</h3>
 
 ---
 # Including in your project
+![version](https://img.shields.io/badge/version-v1.0.0-brightgreen.svg)  
 **setting.gradle**
 ```java
 allprojects {
@@ -37,6 +37,9 @@ dependencies {
 }
 ```
 # How to Use
+### SampleActivity
+**Please note that ExampleActivity is registered in the app path.**    
+
 ### In .xml                                                                                                                            
 Add two layouts to the view you want to use.
 
@@ -82,7 +85,13 @@ for (i in WTUnit.getAll()) {
     wtItem.getItem(i).textSize = 12f
 }
 ```
-
+Two methods that are likely to be used frequently have been implemented in advance.
+```kotlin
+binding.run {
+    wtItem.setAllItemText(arrayOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
+    wtChart.setAllChartValue(arrayOf(100f, 50f, 40f, 70f, 80f, 30f, 20f)
+}  
+```
 ## WTUnit.COMPONENT1 ~ COMPONENT7
 ```kotlin
 WTUnit.COMPONENT1
